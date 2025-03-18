@@ -1,48 +1,35 @@
 public class HouseBuilding {
     public static int getMinimum(String[] area){
-/*          double Average = Arrays.stream(area)
-                                .mapToInt(Integer::parseInt)
-                                .average()
-                                .orElse(0);
-         int FloorAverage = (int)Math.floor(Average);
-         int CeilAverage = (int)Math.ceil(Average);
-         effort += Math.min((Math.abs(digit - FloorAverage)),(Math.abs(digit - CeilAverage)));
-*/
-         int[] intarea = new int[area.length];
-         int digit = 0, sum = 0;
-         int effort = 0;
-         int count = 0;
-         for(int i = 0; i < area.length; i++){
-            intarea[i] = Integer.parseInt(area[i]);
-         }
-         for(int num : intarea){           
-            while(num > 0){
-                digit = num % 10;
-                sum += digit;
-                num /= 10;
-                count++;               
+        int rows = area.length;
+        int cols = area[0].length();
+        int[] intarea = new int[rows * cols];
+        int num = 0;
+        for(int n = 0; n < rows; n++){
+            for(int m = 0; m < cols; m++){
+                intarea[num] = area[n].charAt(m) - '0';
+                num++;
             }
-         }
-        double Average = (int) sum / count;
-        int FloorAverage = (int)Math.floor(Average);
-        int CeilAverage = (int)Math.ceil(Average);
-        digit = 0;
-        for(int num : intarea){           
-            while(num > 0){
-                digit = num % 10;
-                num /= 10;
-                effort += Math.min((Math.abs(digit - FloorAverage)),(Math.abs(digit - CeilAverage)));             
+        }
+        int Mineffort = Integer.MAX_VALUE, gap = 0, a = 1;
+        while(a <= 50){
+            int effort = 0;
+            for(int i = 0; i < num; i++){
+                gap = Math.min(Math.abs(intarea[i] - a), Math.abs(intarea[i] - a + 1));
+                effort += gap;
             }
-         }
-
-         return effort;
-
+            Mineffort = Math.min(Mineffort, effort);
+            a++;
+        }
+        return Mineffort;
     }
 
     public static void main(String[] args) {
         String[] area = {
-            "54454",
-            "61551"
+            "5781252",
+            "2471255",
+            "0000291",
+            "1212489"
+           
         };
         int effort = getMinimum(area);
         System.out.println(effort);

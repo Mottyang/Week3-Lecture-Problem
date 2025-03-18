@@ -1,0 +1,35 @@
+public class HouseBuilding {
+    public static int getMinimum(String[] area){
+         double Average = Arrays.stream(area)
+                                .mapToInt(Integer::parseInt)
+                                .average()
+                                .orElse(0);
+         int FloorAverage = (int)Math.floor(Average);
+         int CeilAverage = (int)Math.ceil(Average);
+
+         int[] intarea = new int[area.length];
+         int digit = 0;
+         int effort = 0;
+         for(int i = 0; i < area.length; i++){
+            intarea[i] = Integer.parseInt(area[i]);
+         }
+         for(int num : intarea){
+            while(num > 0){
+                digit = num % 10;
+                effort += Math.min((Math.abs(digit - FloorAverage)),(Math.abs(digit - CeilAverage)));
+                num /= 10;
+            }
+         }
+         return effort;
+
+    }
+
+    public static void main(String[] args) {
+        String[] area = {
+            "54454",
+            "61551"
+        };
+        int effort = getMinimum(area);
+        System.out.println(effort);
+    }
+}
